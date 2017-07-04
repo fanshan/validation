@@ -1,0 +1,2 @@
+# validation
+Validation logic encapsulation
