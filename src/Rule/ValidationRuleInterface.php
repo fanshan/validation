@@ -15,5 +15,11 @@ interface ValidationRuleInterface
      *
      * @return bool
      */
-    public function isValid($data, Stack $notifications) : bool;
+    public function validate($data, $context = null) : bool;
+    
+    /**
+     * @return Stack
+     */
+    public function getNotifications() : Stack;
+    
 }

@@ -1,6 +1,6 @@
 <?php
 
-    namespace ObjectivePHP\Validation\Validator;
+    namespace ObjectivePHP\Validation;
 
     use ObjectivePHP\Gateway\Entity\EntityInterface;
     use ObjectivePHP\Notification\Stack;
@@ -9,11 +9,11 @@
     use Psr\Container\ContainerInterface;
 
     /**
-     * Interface ValidatorInterface
+     * Interface ValidationChainInterface
      *
-     * @package ObjectivePHP\Gateway\Entity\Validator
+     * @package ObjectivePHP\Gateway\Entity\ValidationChain
      */
-    interface ValidatorInterface
+    interface ValidationChainInterface
     {
 
         /**
@@ -34,7 +34,14 @@
          *
          * @return mixed
          */
-        public function registerRule(ValidationRuleInterface ...$rules);
+        public function registerRule($key, ValidationRuleInterface $rule);
+
+
+        /**
+         * @param $rules
+         * @return mixed
+         */
+        public function registerRules($rules);
     
         /**
          * @param ServicesFactory $servicesFactory
