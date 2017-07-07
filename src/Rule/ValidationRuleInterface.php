@@ -4,13 +4,18 @@ namespace ObjectivePHP\Validation\Rule;
 
 use ObjectivePHP\Notification\Stack;
 
+/**
+ * Interface ValidationRuleInterface
+ *
+ * @package ObjectivePHP\Validation\Rule
+ */
 interface ValidationRuleInterface
 {
     /**
      * Tells if a data set complies to the validation rule
      *
-     * @param \Iterator|array $data Data set to validate
-     * @param array           $context
+     * @param mixed $data Data set to validate
+     * @param array $context
      *
      * @return bool
      */

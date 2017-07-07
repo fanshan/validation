@@ -2,14 +2,10 @@
 
 namespace Tests {
 
-    use ObjectivePHP\Notification\Alert;
     use ObjectivePHP\Validation\HeapValidationChain;
-    use ObjectivePHP\Validation\ValidationChain;
     use ObjectivePHP\Validation\ValidationException;
-    use Tests\Helper\FailingRule;
     use Tests\Helper\HeapValidationRule;
     use Tests\Helper\OtherHeapValidationRule;
-    use Tests\Helper\PassingRule;
 
     class HeapValidationChainTest extends \Codeception\Test\Unit
     {
@@ -21,7 +17,6 @@ namespace Tests {
         // tests
         public function testChainValidation()
         {
-
             $chain = new HeapValidationChain();
 
             $chain->registerRule('key', new HeapValidationRule());
@@ -30,12 +25,10 @@ namespace Tests {
 
             $chain->validate(['key' => 'not valid']);
             $this->assertCount(1, $chain->getNotifications());
-
         }
 
         public function testChainValidationWithMultipleRules()
         {
-
             $chain = new HeapValidationChain();
 
             $chain->registerRule('key', new HeapValidationRule());
@@ -43,7 +36,6 @@ namespace Tests {
             $chain->validate(['key' => 'not valid']);
             $this->assertCount(2, $chain->getRules()->get('key'));
             $this->assertCount(2, $chain->getNotifications()->get('key'));
-
         }
 
         public function testHeapValidationChainOnlyAcceptsTraversableData()
@@ -62,9 +54,9 @@ namespace Tests\Helper {
 
     class HeapValidationRule extends AbstractValidationRule
     {
-        public function validate($data, $context = null): bool
+        public function validate($data, array $context = []) : bool
         {
-            if($data != 'valid') {
+            if ($data != 'valid') {
                 $this->getNotifications()->addMessage('failed', new Alert('Data is not "valid"'));
             }
 
@@ -75,9 +67,9 @@ namespace Tests\Helper {
 
     class OtherHeapValidationRule extends AbstractValidationRule
     {
-        public function validate($data, $context = null): bool
+        public function validate($data, array $context = []) : bool
         {
-            if($data != 'valid') {
+            if ($data != 'valid') {
                 $this->getNotifications()->addMessage('failed.again', new Alert('Data is still not "valid"'));
             }
             return !$this->getNotifications()->hasError();

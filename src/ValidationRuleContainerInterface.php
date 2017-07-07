@@ -2,12 +2,14 @@
 
 namespace ObjectivePHP\Validation;
 
+use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
+
 /**
  * Class RulesContainerInterface
  *
  * @package ObjectivePHP\Validation
  */
-interface RulesContainerInterface
+interface ValidationRuleContainerInterface extends ValidationRuleInterface
 {
     /**
      * @return iterable

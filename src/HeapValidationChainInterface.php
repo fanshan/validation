@@ -10,7 +10,7 @@ use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
  * Date: 07/07/2017
  * Time: 17:40
  */
-interface HeapValidationChainInterface extends ValidationRuleInterface, RulesContainerInterface
+interface HeapValidationChainInterface extends ValidationRuleContainerInterface
 {
     /**
      * Register a validation rule

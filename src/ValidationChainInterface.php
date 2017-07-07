@@ -1,21 +1,21 @@
 <?php
 
-    namespace ObjectivePHP\Validation;
+namespace ObjectivePHP\Validation;
 
-    use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
+use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
 
+/**
+ * Interface ValidationChainInterface
+ *
+ * @package ObjectivePHP\Gateway\Entity\ValidationChain
+ */
+interface ValidationChainInterface extends ValidationRuleContainerInterface
+{
     /**
-     * Interface ValidationChainInterface
+     * Register a validation rule
      *
-     * @package ObjectivePHP\Gateway\Entity\ValidationChain
+     * @param ValidationRuleInterface $rule
+     * @param array                   $context
      */
-    interface ValidationChainInterface extends ValidationRuleInterface, RulesContainerInterface
-    {
-        /**
-         * Register a validation rule
-         *
-         * @param ValidationRuleInterface $rule
-         * @param array                   $context
-         */
-        public function registerRule(ValidationRuleInterface $rule, array $context = []);
-    }
+    public function registerRule(ValidationRuleInterface $rule, array $context = []);
+}

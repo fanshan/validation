@@ -3,6 +3,7 @@
 namespace ObjectivePHP\Validation;
 
 use ObjectivePHP\Notification\Stack;
+use ObjectivePHP\Primitives\Collection\Collection;
 use ObjectivePHP\Validation\Rule\AbstractValidationRule;
 use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
 
@@ -13,6 +14,21 @@ use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
  */
 class HeapValidationChain extends AbstractValidationRule implements HeapValidationChainInterface
 {
+    /**
+     * @var $this
+     */
+    protected $rules;
+
+    /**
+     * ValidationChain constructor.
+     *
+     * @param $rules
+     */
+    public function __construct($rules = null)
+    {
+        $this->rules = (new Collection);
+    }
+
     public function validate($heap, array $context = []) : bool
     {
         if(!is_array($heap) && (!$heap instanceof \Iterator || !$heap instanceof \ArrayAccess)) {
@@ -21,21 +37,24 @@ class HeapValidationChain extends AbstractValidationRule implements HeapValidati
 
         $isValid = true;
 
-        /**
-         * @var string $key
-         * @var ValidationRuleInterface $rule
-         */
-        foreach ($this->getRules() as $key => $rule) {
-            if (array_key_exists($key, $heap)) {
-                $data = $heap[$key];
-                if (!$rule->validate($data, $context)) {
-                    if ($this->getNotifications()->lacks($key)) {
-                        $this->getNotifications()->set($key, new Stack());
+        /** @var Collection $rule */
+        foreach ($this->getRules() as $key =>$rules) {
+            /**
+             * @var string $key
+             * @var ValidationRuleInterface $rule
+             */
+            foreach ($rules as $rule) {
+                if (array_key_exists($key, $heap)) {
+                    $data = $heap[$key];
+                    if (!$rule->validate($data, $context)) {
+                        if ($this->getNotifications()->lacks($key)) {
+                            $this->getNotifications()->set($key, new Stack());
+                        }
+
+                        $this->getNotifications()->get($key)->merge($rule->getNotifications());
+
+                        $isValid = false;
                     }
-
-                    $this->getNotifications()->get($key)->merge($rule->getNotifications());
-
-                    $isValid = false;
                 }
             }
         }
@@ -50,18 +69,21 @@ class HeapValidationChain extends AbstractValidationRule implements HeapValidati
      * @param ValidationRuleInterface $rule
      * @param array                   $context
      *
-     * @return
+     * @return $this
      */
     public function registerRule(string $key, ValidationRuleInterface $rule, array $context = [])
     {
-        // TODO: Implement registerRule() method.
+        if(!$this->rules->has($key)) {
+            $this->rules->set($key, new Collection());
+        }
+
+        $this->rules->get($key)->append($rule);
+
+        return $this;
     }
 
-    /**
-     * @return iterable
-     */
     public function getRules()
     {
-        // TODO: Implement getRules() method.
+        return $this->rules;
     }
 }
