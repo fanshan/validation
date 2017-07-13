@@ -2,8 +2,8 @@
 
 namespace ObjectivePHP\Validation;
 
+use Countable;
 use ObjectivePHP\Primitives\Collection\Collection;
-use ObjectivePHP\ServicesFactory\ServicesFactory;
 use ObjectivePHP\Validation\Rule\AbstractValidationRule;
 use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
 
@@ -12,24 +12,17 @@ use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
  *
  * @package ObjectivePHP\Validation
  */
-class ValidationChain extends AbstractValidationRule implements ValidationChainInterface
+class ValidationChain extends AbstractValidationRule implements ValidationChainInterface, Countable
 {
     /**
-     * @var
-     */
-    protected $servicesFactory;
-
-    /**
-     * @var $this
+     * @var Collection
      */
     protected $rules;
 
     /**
      * ValidationChain constructor.
-     *
-     * @param $rules
      */
-    public function __construct($rules = null)
+    public function __construct()
     {
         $this->rules = (new Collection);
 
@@ -43,7 +36,6 @@ class ValidationChain extends AbstractValidationRule implements ValidationChainI
      */
     public function init()
     {
-
     }
 
     /**
@@ -63,12 +55,9 @@ class ValidationChain extends AbstractValidationRule implements ValidationChainI
 
 
     /**
-     * @param ValidationRuleInterface $rule
-     * @param array                   $context
-     *
-     * @return $this
+     * {@inheritdoc}
      */
-    public function registerRule(ValidationRuleInterface $rule, array $context = [])
+    public function registerRule(ValidationRuleInterface $rule)
     {
         $this->rules->append($rule);
 
@@ -76,21 +65,25 @@ class ValidationChain extends AbstractValidationRule implements ValidationChainI
     }
 
     /**
-     * @param mixed $data
-     * @param array $context
+     * Get Rules
      *
-     * @return bool
-     *
-     * @throws ValidationException
+     * @return Collection
      */
-    public function validate($data, array $context = []): bool
+    public function getRules() : Collection
+    {
+        return $this->rules;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($data): bool
     {
         $isValid = true;
 
         /** @var  $rule ValidationRuleInterface */
         foreach ($this->getRules() as $rule) {
-            if (!$rule->validate($data, $context)) {
-                //if ($this->getNotifications()->lacks($key)) $this->getNotifications()->set($key, new Stack());
+            if (!$rule->validate($data)) {
                 $this->getNotifications()->add($rule->getNotifications()->getInternalValue());
                 $isValid = false;
             }
@@ -100,35 +93,14 @@ class ValidationChain extends AbstractValidationRule implements ValidationChainI
     }
 
     /**
-     * @return bool
+     * Count elements of an object
+     *
+     * @link  http://php.net/manual/en/countable.count.php
+     *
+     * @return int The custom count as an integer.
      */
-    public function hasServicesFactory()
+    public function count()
     {
-        return !empty($this->servicesFactory);
+        return count($this->rules);
     }
-
-    /**
-     * @return ServicesFactory
-     */
-    public function getServicesFactory(): ServicesFactory
-    {
-        return $this->servicesFactory;
-    }
-
-    /**
-     * @param ServicesFactory $servicesFactory
-     * @return $this
-     */
-    public function setServicesFactory(ServicesFactory $servicesFactory)
-    {
-        $this->servicesFactory = $servicesFactory;
-
-        return $this;
-    }
-
-    public function getRules()
-    {
-        return $this->rules;
-    }
-
 }

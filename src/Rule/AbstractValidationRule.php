@@ -17,6 +17,8 @@ abstract class AbstractValidationRule implements ValidationRuleInterface
     protected $notifications;
 
     /**
+     * Get Notifications
+     *
      * @return Stack
      */
     public function getNotifications() : Stack
@@ -29,11 +31,13 @@ abstract class AbstractValidationRule implements ValidationRuleInterface
     }
 
     /**
+     * Set Notifications
+     *
      * @param Stack $notifications
      *
      * @return $this
      */
-    public function setNotifications($notifications)
+    public function setNotifications(Stack $notifications)
     {
         $this->notifications = $notifications;
 

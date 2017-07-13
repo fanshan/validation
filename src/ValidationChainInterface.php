@@ -9,13 +9,12 @@ use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
  *
  * @package ObjectivePHP\Gateway\Entity\ValidationChain
  */
-interface ValidationChainInterface extends ValidationRuleContainerInterface
+interface ValidationChainInterface extends ValidationRuleInterface
 {
     /**
      * Register a validation rule
      *
      * @param ValidationRuleInterface $rule
-     * @param array                   $context
      */
-    public function registerRule(ValidationRuleInterface $rule, array $context = []);
+    public function registerRule(ValidationRuleInterface $rule);
 }

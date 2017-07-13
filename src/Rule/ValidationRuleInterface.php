@@ -15,11 +15,10 @@ interface ValidationRuleInterface
      * Tells if a data set complies to the validation rule
      *
      * @param mixed $data Data set to validate
-     * @param array $context
      *
      * @return bool
      */
-    public function validate($data, array $context = []) : bool;
+    public function validate($data) : bool;
 
     /**
      * @return Stack
