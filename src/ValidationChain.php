@@ -1,53 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gauthier
- * Date: 04/07/2017
- * Time: 17:24
- */
 
 namespace ObjectivePHP\Validation;
 
-
-use ObjectivePHP\Notification\Stack;
+use Countable;
 use ObjectivePHP\Primitives\Collection\Collection;
-use ObjectivePHP\Primitives\Merger\MergePolicy;
-use ObjectivePHP\Primitives\Merger\ValueMerger;
-use ObjectivePHP\ServicesFactory\ServiceReference;
-use ObjectivePHP\ServicesFactory\ServicesFactory;
+use ObjectivePHP\Validation\Rule\AbstractValidationRule;
 use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
 
 /**
  * Class ValidationChain
+ *
  * @package ObjectivePHP\Validation
  */
-class ValidationChain implements ValidationChainInterface
+class ValidationChain extends AbstractValidationRule implements ValidationChainInterface, Countable
 {
-
     /**
-     * @var
-     */
-    protected $servicesFactory;
-
-    /**
-     * @var Stack
-     */
-    protected $notifications;
-
-    /**
-     * @var $this
+     * @var Collection
      */
     protected $rules;
 
     /**
      * ValidationChain constructor.
-     *
-     * @param $rules
      */
-    public function __construct($rules = null)
+    public function __construct()
     {
-
-        $this->notifications = new Stack();
         $this->rules = (new Collection);
 
         $this->init();
@@ -60,7 +36,6 @@ class ValidationChain implements ValidationChainInterface
      */
     public function init()
     {
-
     }
 
     /**
@@ -71,8 +46,8 @@ class ValidationChain implements ValidationChainInterface
     {
         $rules = Collection::cast($rules);
 
-        foreach ($rules as $key => $rule) {
-            $this->registerRule($key, $rule);
+        foreach ($rules as $rule) {
+            $this->registerRule($rule);
         }
 
         return $this;
@@ -80,52 +55,37 @@ class ValidationChain implements ValidationChainInterface
 
 
     /**
-     * @param $key
-     * @param ValidationRuleInterface $rule
-     * @return $this
+     * {@inheritdoc}
      */
-    public function registerRule($key, ValidationRuleInterface $rule)
+    public function registerRule(ValidationRuleInterface $rule)
     {
-
-        if(!$this->rules->has($key)) {
-            $this->rules->set($key, new Collection());
-        }
-
-        $this->rules->get($key)->append($rule);
+        $this->rules->append($rule);
 
         return $this;
     }
 
+    /**
+     * Get Rules
+     *
+     * @return Collection
+     */
+    public function getRules() : Collection
+    {
+        return $this->rules;
+    }
 
     /**
-     * @param mixed $data
-     * @return bool
-     * @throws ValidationException
+     * {@inheritdoc}
      */
-    public function validate($data, $context = null): bool
+    public function validate($data): bool
     {
-
         $isValid = true;
-        foreach ($this->rules as $key => $rules) {
-            /** @var  $rule ValidationRuleInterface */
-            foreach ($rules as $rule) {
-                if ($this->hasServicesFactory()) {
-                    if ($rule instanceof ServiceReference) {
-                        $rule = $this->getServicesFactory()->get($rule);
-                    } else {
-                        $this->getServicesFactory()->injectDependencies($rule);
-                    }
-                } else {
-                    if ($rule instanceof ServiceReference) {
-                        throw new ValidationException('No ServicesFactory available to resolve reference to ' . $rule->getId());
-                    }
-                }
 
-                if (!$rule->validate($data, $context)) {
-                    if ($this->getNotifications()->lacks($key)) $this->getNotifications()->set($key, new Stack());
-                    $this->getNotifications()->get($key)->add($rule->getNotifications()->getInternalValue());
-                    $isValid = false;
-                }
+        /** @var  $rule ValidationRuleInterface */
+        foreach ($this->getRules() as $rule) {
+            if (!$rule->validate($data)) {
+                $this->getNotifications()->add($rule->getNotifications()->getInternalValue());
+                $isValid = false;
             }
         }
 
@@ -133,43 +93,14 @@ class ValidationChain implements ValidationChainInterface
     }
 
     /**
-     * @return bool
+     * Count elements of an object
+     *
+     * @link  http://php.net/manual/en/countable.count.php
+     *
+     * @return int The custom count as an integer.
      */
-    public function hasServicesFactory()
+    public function count()
     {
-        return !empty($this->servicesFactory);
+        return count($this->rules);
     }
-
-    /**
-     * @return ServicesFactory
-     */
-    public function getServicesFactory(): ServicesFactory
-    {
-        return $this->servicesFactory;
-    }
-
-    /**
-     * @param ServicesFactory $servicesFactory
-     * @return $this
-     */
-    public function setServicesFactory(ServicesFactory $servicesFactory)
-    {
-        $this->servicesFactory = $servicesFactory;
-
-        return $this;
-    }
-
-    /**
-     * @return Stack
-     */
-    public function getNotifications(): Stack
-    {
-        return $this->notifications;
-    }
-
-    public function getRules()
-    {
-        return $this->rules;
-    }
-
 }

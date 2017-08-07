@@ -1,19 +1,28 @@
 <?php
-namespace Rule;
 
+namespace Tests\ObjectivePHP\Validation;
 
-use ObjectivePHP\Notification\Alert;
+use ObjectivePHP\Notification\Stack;
 use ObjectivePHP\Validation\Rule\AbstractValidationRule;
-use ObjectivePHP\Validation\ValidationChain;
+use PHPUnit\Framework\TestCase;
 
-class AbstractValidationRuleTest extends \Codeception\Test\Unit
+/**
+ * Class AbstractValidationRuleTest
+ *
+ * @package Tests\ObjectivePHP\Validation
+ */
+class AbstractValidationRuleTest extends TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+    public function testNotificationsAccessors()
+    {
+        /** @var AbstractValidationRule $rule */
+        $rule = $this->getMockForAbstractClass(AbstractValidationRule::class);
 
+        $stack = new Stack();
 
+        $rule->setNotifications($stack);
 
-
+        $this->assertEquals($stack, $rule->getNotifications());
+        $this->assertAttributeEquals($rule->getNotifications(), 'notifications', $rule);
+    }
 }

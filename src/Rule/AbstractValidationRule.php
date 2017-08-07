@@ -2,19 +2,26 @@
 
 namespace ObjectivePHP\Validation\Rule;
 
-
 use ObjectivePHP\Notification\Stack;
 
+/**
+ * Class AbstractValidationRule
+ *
+ * @package ObjectivePHP\Validation\Rule
+ */
 abstract class AbstractValidationRule implements ValidationRuleInterface
 {
-
     /**
      * @var Stack
      */
     protected $notifications;
 
-
-    public function getNotifications(): Stack
+    /**
+     * Get Notifications
+     *
+     * @return Stack
+     */
+    public function getNotifications() : Stack
     {
         if (is_null($this->notifications)) {
             $this->notifications = new Stack;
@@ -24,15 +31,16 @@ abstract class AbstractValidationRule implements ValidationRuleInterface
     }
 
     /**
+     * Set Notifications
+     *
      * @param Stack $notifications
      *
      * @return $this
      */
-    public function setNotifications($notifications)
+    public function setNotifications(Stack $notifications)
     {
         $this->notifications = $notifications;
 
         return $this;
     }
-
 }
