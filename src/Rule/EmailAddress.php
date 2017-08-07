@@ -8,83 +8,16 @@
 
 namespace ObjectivePHP\Validation\Rule;
 
-use ObjectivePHP\Notification\MessageInterface;
-use ObjectivePHP\Notification\Stack;
+
+use ObjectivePHP\Validation\Rule\Adapter\ZendValidatorAdapter;
 
 
-class EmailAddress implements ValidationRuleInterface
+class EmailAddress extends ZendValidatorAdapter
 {
-    
-    protected $property = 'email';
-    
-    const MISSING_AT_SYMBOL = 'validator.email.missing_at_symbol';
-    
-    /**
-     * @var Stack
-     */
-    protected $notifications;
-    
-    /**
-     * EmailAddress constructor.
-     *
-     * @param $property
-     */
-    public function __construct($property = null)
+
+    public function __construct(array $options = [])
     {
-        if($property) $this->property = $property;
+        $this->setValidator(new \Zend\Validator\EmailAddress($options));
     }
-    
-    
-    public function validate($data, Stack $notifications = null): bool
-    {
-        if(is_null($notifications)) $notifications = new Stack();
-        
-        // direct validation
-        if(!is_array($data) && !$data instanceof \Iterator)
-        {
-            $data = [$this->property => $data];
-        }
-        
-        $email = $data[$this->property];
-        
-        // validate
-        $delegate = new \Zend\Validator\EmailAddress;
-        if(!$delegate->isValid($email)) {
-            $notifications->set($this->property, new Stack());
-            return false;
-        }
-        
-        return true;
-    }
-    
-    public function getNotifications(): Stack
-    {
-        return $this->notifications;
-    }
-    
-    
-}
-$validator = new EmailAddress();
-if(!$validator->validate('test@test'))
-{
-    $messages = $validator->getNotifications();
-    
-    $messages->each(function(MessageInterface $message) {
-        echo $message;
-    });
 }
 
-$user = [];
-$validator = new EmailAddress('contact_email');
-if (!$validator->validate($user)) {
-    $messages = $validator->getNotifications();
-    
-    if($notifications->has(EmailAddress::MISSING_AT_SYMBOL))
-    {
-    
-    }
-    
-    $messages->each(function (MessageInterface $message) {
-        echo $message;
-    });
-}

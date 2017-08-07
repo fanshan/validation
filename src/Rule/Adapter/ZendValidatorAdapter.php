@@ -1,31 +1,23 @@
 <?php
 
-namespace ObjectivePHP\Validation\Rule;
+namespace ObjectivePHP\Validation\Rule\Adapter;
 
 use ObjectivePHP\Notification\Alert;
+use ObjectivePHP\Validation\Rule\AbstractValidationRule;
+use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
 use Zend\Validator\ValidatorInterface;
 
 /**
- * Class ZendAdaptor
+ * Class ZendValidatorAdapter
  *
  * @package ObjectivePHP\Validation\Rule
  */
-class ZendAdaptor extends AbstractValidationRule implements ValidationRuleInterface
+class ZendValidatorAdapter extends AbstractValidationRule
 {
     /**
      * @var ValidatorInterface
      */
     protected $validator;
-
-    /**
-     * ZendAdaptor constructor.
-     *
-     * @param ValidatorInterface $validator
-     */
-    public function __construct(ValidatorInterface $validator)
-    {
-        $this->setValidator($validator);
-    }
 
     /**
      * Get Validator
@@ -58,9 +50,9 @@ class ZendAdaptor extends AbstractValidationRule implements ValidationRuleInterf
      *
      * @return bool
      */
-    public function validate($data) : bool
+    public function validate($data, $context = null) : bool
     {
-        if (!$this->getValidator()->isValid($data)) {
+        if (!$this->getValidator()->isValid($data, $context)) {
             foreach ($this->getValidator()->getMessages() as $key => $message) {
                 $this->getNotifications()->addMessage($key, new Alert($message));
             }
