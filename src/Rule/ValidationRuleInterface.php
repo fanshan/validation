@@ -18,7 +18,7 @@ interface ValidationRuleInterface
      *
      * @return bool
      */
-    public function validate($data) : bool;
+    public function validate($data, $context = null) : bool;
 
     /**
      * @return Stack

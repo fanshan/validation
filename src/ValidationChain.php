@@ -77,13 +77,13 @@ class ValidationChain extends AbstractValidationRule implements ValidationChainI
     /**
      * {@inheritdoc}
      */
-    public function validate($data): bool
+    public function validate($data, $context = null): bool
     {
         $isValid = true;
 
         /** @var  $rule ValidationRuleInterface */
         foreach ($this->getRules() as $rule) {
-            if (!$rule->validate($data)) {
+            if (!$rule->validate($data, $context)) {
                 $this->getNotifications()->add($rule->getNotifications()->getInternalValue());
                 $isValid = false;
             }
