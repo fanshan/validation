@@ -2,8 +2,8 @@
 
 namespace Tests {
 
+    use ObjectivePHP\Validation\Exception\ValidationException;
     use ObjectivePHP\Validation\HeapValidationChain;
-    use ObjectivePHP\Validation\ValidationException;
     use Tests\Helper\HeapValidationRule;
     use Tests\Helper\OtherHeapValidationRule;
 
@@ -54,7 +54,7 @@ namespace Tests\Helper {
 
     class HeapValidationRule extends AbstractValidationRule
     {
-        public function validate($data, array $context = []) : bool
+        public function validate($data, $context = null): bool
         {
             if ($data != 'valid') {
                 $this->getNotifications()->addMessage('failed', new Alert('Data is not "valid"'));
@@ -67,7 +67,7 @@ namespace Tests\Helper {
 
     class OtherHeapValidationRule extends AbstractValidationRule
     {
-        public function validate($data, array $context = []) : bool
+        public function validate($data, $context = null): bool
         {
             if ($data != 'valid') {
                 $this->getNotifications()->addMessage('failed.again', new Alert('Data is still not "valid"'));

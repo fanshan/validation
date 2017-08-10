@@ -42,7 +42,7 @@ namespace Tests\Helper {
     class PassingRule extends AbstractValidationRule
     {
 
-        public function validate($data, array $context = []): bool
+        public function validate($data, $context = null): bool
         {
             return true;
         }
@@ -64,7 +64,7 @@ namespace Tests\Helper {
         }
 
 
-        public function validate($data, array $context = []): bool
+        public function validate($data, $context = null): bool
         {
             foreach ($this->failures as $reference => $message) {
                 $this->getNotifications()->set($reference, $message);

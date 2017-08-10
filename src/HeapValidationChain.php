@@ -4,6 +4,7 @@ namespace ObjectivePHP\Validation;
 
 use ObjectivePHP\Notification\Stack;
 use ObjectivePHP\Primitives\Collection\Collection;
+use ObjectivePHP\Validation\Exception\ValidationException;
 use ObjectivePHP\Validation\Rule\AbstractValidationRule;
 use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
 
@@ -59,7 +60,7 @@ class HeapValidationChain extends AbstractValidationRule implements HeapValidati
     /**
      * {@inheritdoc}
      */
-    public function validate($heap) : bool
+    public function validate($heap, $context = null) : bool
     {
         if(!is_array($heap) && (!$heap instanceof \Iterator || !$heap instanceof \ArrayAccess)) {
             throw new ValidationException(__METHOD__ . ' expects data to be an array or ArrayObject like structure');

@@ -1,6 +1,6 @@
 <?php
 
-namespace ObjectivePHP\Validation;
+namespace ObjectivePHP\Validation\Exception;
 
 /**
  * Class ValidationException
