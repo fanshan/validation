@@ -62,7 +62,7 @@ class HeapValidationChain extends AbstractValidationRule implements HeapValidati
      */
     public function validate($heap, $context = null) : bool
     {
-        if(!is_array($heap) && (!$heap instanceof \Iterator || !$heap instanceof \ArrayAccess)) {
+        if(!is_array($heap) && (!$heap instanceof \Iterator && !$heap instanceof \ArrayAccess && !$heap instanceof \ArrayObject)) {
             throw new ValidationException(__METHOD__ . ' expects data to be an array or ArrayObject like structure');
         }
 
