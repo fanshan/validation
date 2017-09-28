@@ -26,6 +26,15 @@ class HeapValidationChain extends AbstractValidationRule implements HeapValidati
     public function __construct()
     {
         $this->rules = (new Collection);
+        $this->init();
+    }
+
+    /**
+     * To be overriden in inherited classes
+     */
+    protected function init()
+    {
+
     }
 
     /**
@@ -70,9 +79,9 @@ class HeapValidationChain extends AbstractValidationRule implements HeapValidati
 
         /** @var ValidationRuleInterface $rule */
         foreach ($this->getRules() as $key =>$rule) {
-            if (array_key_exists($key, $heap)) {
+            if (array_key_exists($key, $heap) || isset($heap[$key])) {
                 $data = $heap[$key];
-                if (!$rule->validate($data)) {
+                if (!$rule->validate($data, $context)) {
                     if ($this->getNotifications()->lacks($key)) {
                         $this->getNotifications()->set($key, new Stack());
                     }
