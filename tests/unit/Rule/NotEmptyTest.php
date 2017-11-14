@@ -184,6 +184,12 @@ class NotEmptyTest extends Unit
                 '',
                 false
             ],
+            22 => [
+                [
+                ],
+                '',
+                false
+            ],
         ];
     }
 }
