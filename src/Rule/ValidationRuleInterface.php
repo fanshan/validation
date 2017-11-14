@@ -24,5 +24,4 @@ interface ValidationRuleInterface
      * @return Stack
      */
     public function getNotifications() : Stack;
-
 }

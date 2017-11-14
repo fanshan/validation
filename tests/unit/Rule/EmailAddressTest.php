@@ -97,6 +97,11 @@ class EmailAddressTest extends Unit
                 'test.test@localhost',
                 true
             ],
+            11 => [
+                [],
+                'test.test@localhost',
+                false
+            ],
         ];
     }
 }

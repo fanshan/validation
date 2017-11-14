@@ -99,4 +99,44 @@ class IpTest extends Unit
             ]
         ];
     }
+
+    /**
+     * @dataProvider ipValidationDataWithoutParams
+     */
+    public function testIpValidationWithoutParams($value, $expected)
+    {
+        $validator = new Ip();
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function ipValidationDataWithoutParams()
+    {
+        return [
+            0 => [
+                '19.117.63.253', // Value to test
+                true             // Expected result of validation
+            ],
+            1 => [
+                '[19.117.63.253]',
+                false
+            ],
+            2 => [
+                '2001:db8:a0b:12f0::1',
+                true
+            ],
+            3 => [
+                '[2001:db8:a0b:12f0::1]',
+                true
+            ],
+            4 => [
+                'v1.fe80::a+en1',
+                false
+            ],
+            5 => [
+                '[v1.fe80::a+en1]',
+                false
+            ]
+        ];
+    }
 }

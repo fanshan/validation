@@ -7,6 +7,11 @@ namespace Tests {
     use Tests\Helper\FailingRule;
     use Tests\Helper\PassingRule;
 
+    /**
+     * Class ValidationChainTest
+     *
+     * @package Tests
+     */
     class ValidationChainTest extends \Codeception\Test\Unit
     {
         /**
@@ -36,34 +41,52 @@ namespace Tests {
 }
 
 namespace Tests\Helper {
-
     use ObjectivePHP\Validation\Rule\AbstractValidationRule;
 
+    /**
+     * Class PassingRule
+     *
+     * @package Tests\Helper
+     */
     class PassingRule extends AbstractValidationRule
     {
-
+        /**
+         * @param mixed $data
+         * @param null $context
+         *
+         * @return bool
+         */
         public function validate($data, $context = null): bool
         {
             return true;
         }
-
     }
 
+    /**
+     * Class FailingRule
+     *
+     * @package Tests\Helper
+     */
     class FailingRule extends AbstractValidationRule
     {
-
-
         protected $failures = [];
 
         /**
          * FailingRule constructor.
+         *
+         * @param array $messages
          */
         public function __construct(array $messages)
         {
             $this->failures = $messages;
         }
 
-
+        /**
+         * @param mixed $data
+         * @param null $context
+         *
+         * @return bool
+         */
         public function validate($data, $context = null): bool
         {
             foreach ($this->failures as $reference => $message) {
@@ -72,6 +95,5 @@ namespace Tests\Helper {
 
             return false;
         }
-
     }
 }

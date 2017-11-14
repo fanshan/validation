@@ -75,4 +75,35 @@ class GreaterThanTest extends Unit
             ],
         ];
     }
+
+    /**
+     * @dataProvider greaterThanValidationDataWithoutParams
+     */
+    public function testGreaterThanValidationWithoutParams($min, $value, $expected)
+    {
+        $validator = new GreaterThan($min);
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function greaterThanValidationDataWithoutParams()
+    {
+        return [
+            0 => [
+                '3',
+                '3',
+                true
+            ],
+            1 => [
+                '3',
+                '4',
+                true
+            ],
+            1 => [
+                '3',
+                '2',
+                false
+            ]
+        ];
+    }
 }

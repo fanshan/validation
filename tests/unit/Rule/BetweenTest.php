@@ -95,6 +95,44 @@ class BetweenTest extends Unit
                 '999999',
                 true
             ],
+            10 => [
+                0,
+                PHP_INT_MAX,
+                true,
+                PHP_INT_MAX,
+                true
+            ],
+            11 => [
+                0,
+                PHP_INT_MAX,
+                false,
+                PHP_INT_MAX,
+                false
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider betweenValidationDataWithoutParams
+     */
+    public function testBetweenValidationWithoutParams($value, $expected)
+    {
+        $validator = new Between();
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function betweenValidationDataWithoutParams()
+    {
+        return [
+            0 => [
+                1,    // Value to test
+                true  // Expected result of validation
+            ],
+            1 => [
+                PHP_INT_MAX,
+                true
+            ]
         ];
     }
 }

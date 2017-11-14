@@ -7,6 +7,11 @@ namespace Tests {
     use Tests\Helper\HeapValidationRule;
     use Tests\Helper\OtherHeapValidationRule;
 
+    /**
+     * Class HeapValidationChainTest
+     *
+     * @package Tests
+     */
     class HeapValidationChainTest extends \Codeception\Test\Unit
     {
         /**
@@ -48,12 +53,22 @@ namespace Tests {
 }
 
 namespace Tests\Helper {
-
     use ObjectivePHP\Notification\Alert;
     use ObjectivePHP\Validation\Rule\AbstractValidationRule;
 
+    /**
+     * Class HeapValidationRule
+     *
+     * @package Tests\Helper
+     */
     class HeapValidationRule extends AbstractValidationRule
     {
+        /**
+         * @param mixed $data
+         * @param null $context
+         *
+         * @return bool
+         */
         public function validate($data, $context = null): bool
         {
             if ($data != 'valid') {
@@ -62,11 +77,21 @@ namespace Tests\Helper {
 
             return !$this->getNotifications()->hasError();
         }
-
     }
 
+    /**
+     * Class OtherHeapValidationRule
+     *
+     * @package Tests\Helper
+     */
     class OtherHeapValidationRule extends AbstractValidationRule
     {
+        /**
+         * @param mixed $data
+         * @param null $context
+         *
+         * @return bool
+         */
         public function validate($data, $context = null): bool
         {
             if ($data != 'valid') {
@@ -74,6 +99,5 @@ namespace Tests\Helper {
             }
             return !$this->getNotifications()->hasError();
         }
-
     }
 }

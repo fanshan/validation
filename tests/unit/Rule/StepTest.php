@@ -13,16 +13,16 @@ use ObjectivePHP\Validation\Rule\Step;
 class StepTest extends Unit
 {
     /**
-     * @dataProvider ipValidationData
+     * @dataProvider stepValidationData
      */
-    public function testIpValidation($baseValue, $step, $value, $expected)
+    public function testStepValidation($baseValue, $step, $value, $expected)
     {
         $validator = new Step($baseValue, $step);
 
         $this->assertEquals($expected, $validator->validate($value));
     }
 
-    public function ipValidationData()
+    public function stepValidationData()
     {
         return [
             0 => [
@@ -49,6 +49,46 @@ class StepTest extends Unit
                 3,
                 false
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider stepValidationDataWithoutParam
+     */
+    public function testStepValidationWithoutParam($value, $expected)
+    {
+        $validator = new Step();
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function stepValidationDataWithoutParam()
+    {
+        return [
+            0 => [
+                1.1, // Value to test
+                false // Expected result of validation
+            ],
+            1 => [
+                3.3,
+                false
+            ],
+            2 => [
+                3.35,
+                false
+            ],
+            3 => [
+                3,
+                true
+            ],
+            4 => [
+                1,
+                true
+            ],
+            5 => [
+                0,
+                true
+            ]
         ];
     }
 }

@@ -72,4 +72,28 @@ class DateTest extends Unit
             ]
         ];
     }
+
+    /**
+     * @dataProvider dateValidationDataWithoutParams
+     */
+    public function testDateValidationWithoutParams($value, $expected)
+    {
+        $validator = new Date();
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function dateValidationDataWithoutParams()
+    {
+        return [
+            0 => [
+                '2000-10-10', // Value to test
+                true         // Expected result of validation
+            ],
+            1 => [
+                '10.10.2000',
+                false
+            ]
+        ];
+    }
 }

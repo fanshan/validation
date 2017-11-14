@@ -76,4 +76,30 @@ class IdenticalTest extends Unit
             ],
         ];
     }
+
+    /**
+     * @dataProvider identicalValidationDataWithoutParams
+     */
+    public function testIdenticalValidationWithoutParams($token, $value, $expected)
+    {
+        $validator = new Identical($token);
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function identicalValidationDataWithoutParams()
+    {
+        return [
+            0 => [
+                '123', // Token
+                '123', // Value to test
+                true   // Expected result of validation
+            ],
+            1 => [
+                '123',
+                123,
+                false
+            ]
+        ];
+    }
 }
