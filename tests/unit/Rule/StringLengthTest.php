@@ -8,18 +8,47 @@
 
 namespace Tests\ObjectivePHP\Validation\Rule;
 
-
 use Codeception\Test\Unit;
 use ObjectivePHP\Validation\Rule\StringLength;
 
+/**
+ * Class StringLengthTest
+ *
+ * @package Tests\ObjectivePHP\Validation\Rule
+ */
 class StringLengthTest extends Unit
 {
-
-    public function testStringLengthValidation()
+    /**
+     * @dataProvider stringLengthValidationData
+     */
+    public function testStringLengthValidation($lengthMin, $lengthMax, $value, $expected)
     {
-        $validator = new StringLength(0, 15);
+        $validator = new StringLength($lengthMin, $lengthMax);
 
-        $this->assertTrue($validator->validate('abc'));
-        $this->assertFalse($validator->validate('abc-def-ghi-jkl-'));
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function stringLengthValidationData()
+    {
+        return [
+            0 => [
+                0,     // String length min
+                15,    // String length max
+                'abc', // Value to test
+                true   // Expected result of validation
+            ],
+            1 => [
+                0,
+                15,
+                'ABC',
+                true
+            ],
+            2 => [
+                0,
+                15,
+                'abc-def-ghi-jkl-',
+                false
+            ]
+        ];
     }
 }

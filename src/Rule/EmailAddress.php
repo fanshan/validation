@@ -8,13 +8,20 @@
 
 namespace ObjectivePHP\Validation\Rule;
 
-
 use ObjectivePHP\Validation\Rule\Adapter\ZendValidatorAdapter;
 
-
+/**
+ * Class EmailAddress
+ *
+ * @package ObjectivePHP\Validation\Rule
+ */
 class EmailAddress extends ZendValidatorAdapter
 {
-
+    /**
+     * EmailAddress constructor.
+     *
+     * @param array $options
+     */
     public function __construct(array $options = [])
     {
         $this->setValidator(new \Zend\Validator\EmailAddress($options));

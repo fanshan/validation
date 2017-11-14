@@ -2,17 +2,21 @@
 
 namespace ObjectivePHP\Validation\Rule;
 
-
 use ObjectivePHP\Validation\Rule\Adapter\ZendValidatorAdapter;
 
+/**
+ * Class Callback
+ *
+ * @package ObjectivePHP\Validation\Rule
+ */
 class Callback extends ZendValidatorAdapter
 {
-
-
     /**
-     * Between constructor.
+     * Callback constructor.
+     *
+     * @param callable $callback
      */
-    public function __construct(callable $callback)
+    public function __construct(callable $callback = null)
     {
         $this->setValidator(new \Zend\Validator\Callback(compact('callback')));
     }

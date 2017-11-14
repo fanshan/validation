@@ -4,7 +4,6 @@ namespace ObjectivePHP\Validation\Rule\Adapter;
 
 use ObjectivePHP\Notification\Alert;
 use ObjectivePHP\Validation\Rule\AbstractValidationRule;
-use ObjectivePHP\Validation\Rule\ValidationRuleInterface;
 use Zend\Validator\ValidatorInterface;
 
 /**

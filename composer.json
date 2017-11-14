@@ -17,14 +17,18 @@
   ],
   "require": {
     "php": ">=7.0",
+    "ext-intl" : "*",
     "objective-php/primitives": "^1.3.6",
     "objective-php/services-factory": "^1.1.0",
     "objective-php/notification": "^1.1.0",
-    "zendframework/zend-validator": "^2.9"
+    "zendframework/zend-validator": "^2.9",
+    "zendframework/zend-filter": "^2.7",
+    "zendframework/zend-i18n": "^2.7"
   },
   "require-dev": {
     "codeception/codeception": "^2.1",
-    "psr/container": "1.0.0"
+    "psr/container": "1.0.0",
+    "mikey179/vfsStream": "^1.6"
   },
   "autoload": {
     "psr-4": {
