@@ -16,7 +16,7 @@ class Callback extends ZendValidatorAdapter
      *
      * @param callable $callback
      */
-    public function __construct(callable $callback = null)
+    public function __construct(callable $callback)
     {
         $this->setValidator(new \Zend\Validator\Callback(compact('callback')));
     }

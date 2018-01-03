@@ -75,4 +75,40 @@ class LessThanTest extends Unit
             ],
         ];
     }
+
+    /**
+     * @dataProvider lessThanValidationDataWithoutParams
+     */
+    public function testLessThanValidationWithoutParams($max, $value, $expected)
+    {
+        $validator = new LessThan($max);
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function lessThanValidationDataWithoutParams()
+    {
+        return [
+            0 => [
+                '3',   // Value max
+                '2',   // Value to test
+                true   // Expected result of validation
+            ],
+            1 => [
+                '3',
+                '3',
+                true
+            ],
+            2 => [
+                '3',
+                '4',
+                false
+            ],
+            3 => [
+                '3',
+                '4',
+                false
+            ],
+        ];
+    }
 }

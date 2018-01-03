@@ -29,11 +29,11 @@ class InArrayTest extends Unit
                 [
                     0 => 'value0',
                     1 => 'value1'
-                ],                                                                                // Haystack
-                false,                                                                            // Is recursive
+                ], // Haystack
+                false, // Is recursive
                 \Zend\Validator\InArray::COMPARE_NOT_STRICT_AND_PREVENT_STR_TO_INT_VULNERABILITY, // Comparison mode
-                'value0',                                                                         // Value to test
-                true                                                                              // Expected result of validation
+                'value0', // Value to test
+                true // Expected result of validation
             ],
             1 => [
                 [
@@ -151,6 +151,58 @@ class InArrayTest extends Unit
                 0,
                 false
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider inArrayValidationDataWithoutParams
+     */
+    public function testInArrayValidationWithoutParams($haystack, $value, $expected)
+    {
+        $validator = new InArray($haystack);
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function inArrayValidationDataWithoutParams()
+    {
+        return [
+            0 => [
+                [
+                    0 => 'value0',
+                    1 => 'value1',
+                    2 => [
+                        0 => 'value2-0',
+                        1 => 'value2-1'
+                    ]
+                ],
+                'value2-0',
+                false
+            ],
+            1 => [
+                [
+                    0 => 'value0',
+                    1 => 'value1'
+                ],
+                'value0',
+                true
+            ],
+            2 => [
+                [
+                    0 => 'value0',
+                    1 => 'value1'
+                ],
+                '0',
+                false
+            ],
+            3 => [
+                [
+                    0 => '0t',
+                    1 => '1'
+                ],
+                0,
+                false
+            ]
         ];
     }
 }

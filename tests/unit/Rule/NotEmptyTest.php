@@ -185,10 +185,19 @@ class NotEmptyTest extends Unit
                 false
             ],
             22 => [
-                [
-                ],
+                [],
                 '',
                 false
+            ],
+            23 => [
+                [],
+                null,
+                false
+            ],
+            24 => [
+                [],
+                new Collection([]),
+                true
             ],
         ];
     }

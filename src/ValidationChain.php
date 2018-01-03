@@ -53,7 +53,6 @@ class ValidationChain extends AbstractValidationRule implements ValidationChainI
         return $this;
     }
 
-
     /**
      * {@inheritdoc}
      */

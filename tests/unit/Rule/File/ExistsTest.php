@@ -22,6 +22,10 @@ class ExistsTest extends Unit
         vfsStreamWrapper::register();
         $root = vfsStream::newDirectory('tmp');
         vfsStreamWrapper::setRoot($root);
+
+        $directory = vfsStream::newDirectory('dir');
+        $root->addChild($directory);
+
         $file = vfsStream::newFile('myfile.txt');
         $root->addChild($file);
 
@@ -45,6 +49,30 @@ class ExistsTest extends Unit
                     vfsStream::url('tmp')
                 ],
                 vfsStream::url('tmp/myfile.doc'),
+                false
+            ],
+            2 => [
+                [],
+                vfsStream::url('tmp/myfile.doc'),
+                false
+            ],
+            3 => [
+                [],
+                vfsStream::url('tmp'),
+                true
+            ],
+            4 => [
+                [
+                    vfsStream::url('tmp')
+                ],
+                vfsStream::url('dir'),
+                true
+            ],
+            5 => [
+                [
+                    vfsStream::url('tmp')
+                ],
+                vfsStream::url('tmp'),
                 false
             ]
         ];

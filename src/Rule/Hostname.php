@@ -19,8 +19,14 @@ class Hostname extends ZendValidatorAdapter
      * @param bool $useTldCheck
      * @param null $ipValidator
      */
-    public function __construct($allow = \Zend\Validator\Hostname::ALLOW_ALL, $useIdnCheck = true, $useTldCheck = true, $ipValidator = null)
-    {
-        $this->setValidator(new \Zend\Validator\Hostname(compact('allow', 'useIdnCheck', 'useTldCheck', 'ipValidator')));
+    public function __construct(
+        $allow = \Zend\Validator\Hostname::ALLOW_ALL,
+        $useIdnCheck = true,
+        $useTldCheck = true,
+        $ipValidator = null
+    ) {
+        $this->setValidator(new \Zend\Validator\Hostname(
+            compact('allow', 'useIdnCheck', 'useTldCheck', 'ipValidator')
+        ));
     }
 }

@@ -7,7 +7,7 @@ use ObjectivePHP\Validation\Rule\Adapter\ZendValidatorAdapter;
 /**
  * Class Exists
  *
- * @package ObjectivePHP\Validation\Rule
+ * @package ObjectivePHP\Validation\Rule\File
  */
 class Exists extends ZendValidatorAdapter
 {

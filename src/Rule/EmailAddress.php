@@ -27,4 +27,3 @@ class EmailAddress extends ZendValidatorAdapter
         $this->setValidator(new \Zend\Validator\EmailAddress($options));
     }
 }
-

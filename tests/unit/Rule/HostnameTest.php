@@ -83,4 +83,32 @@ class HostnameTest extends Unit
             ]
         ];
     }
+
+    /**
+     * @dataProvider hostnameValidationDataWithoutParams
+     */
+    public function testHostnameValidationWithoutParams($value, $expected)
+    {
+        $validator = new Hostname();
+
+        $this->assertEquals($expected, $validator->validate($value));
+    }
+
+    public function hostnameValidationDataWithoutParams()
+    {
+        return [
+            0 => [
+                'gmail.com', // Value to test
+                true         // Expected result of validation
+            ],
+            1 => [
+                'localhost',
+                true
+            ],
+            2 => [
+                '192.168.0.1',
+                true
+            ]
+        ];
+    }
 }

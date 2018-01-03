@@ -44,6 +44,12 @@ class CallbackTest extends Unit
                 },
                 2,
                 false
+            ],
+            2 => [
+                function () {
+                },
+                2,
+                false
             ]
         ];
     }
